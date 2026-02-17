@@ -58,9 +58,16 @@ Description
 
 	Analysis
 	{
-	  title: qsTr("Plot a parabola")
+	  title: qsTr("Plot a parabooooola")
 	  func: "parabola"
 	  qml: "Parabola.qml"
 	  requiresData: false
+	}
+	Analysis
+	{
+	  title: qsTr("Homals")
+	  func: "homals"
+	  qml: "Homals.qml"
+	  requiresData: true
 	}
 }

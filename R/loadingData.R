@@ -7,6 +7,9 @@ processTable <- function(jaspResults, dataset, options) {
     return(!not_assigned)
   }
 
+  .createExampleTable(jaspResults, dataset, options,
+                      ready = .isAssigned(options$xs))
+
   # Only if everything has been assigned ...
   if(.isAssigned(options$ts) && .isAssigned(options$xs)) {
     # ... print the inputs as a table
@@ -20,11 +23,29 @@ processTable <- function(jaspResults, dataset, options) {
     stats[["xs"]] <- dataset[[options$xs]]
 
     jaspResults[["stats"]] <- stats
-  } else {
-    expl <- createJaspHtml(text = "Select times and positions")
-    expl$dependOn(c("ts", "xs")) # Declare dependencies to make the object disappear / reappear when needed
-
-    jaspResults[["Explanation"]] <- expl
   }
+
+ else {
+  expl <- createJaspHtml(text = "Select times and positions")
+  expl$dependOn(c("ts", "xs")) # Declare dependencies to make the object disappear / reappear when needed
+
+  jaspResults[["Explanation"]] <- expl
+ }
+}
+.createExampleTable <- function(jaspResults, dataset, options, ready) {
+  if(!is.null(jaspResults[["myTable"]]))
+    return()
+  myTable <- createJaspTable(title = gettext("Mean of my Results"))
+  myTable$dependOn("xs")
+
+  myTable$addColumnInfo(name = "mean", title = gettext("Mean of xs"), type = "number")
+
+  jaspResults[["myTable"]] <- myTable
+
+  if (!ready)  # if not all input is provided that is needed to do the computations, return an empty table
+    return()
+
+  myTable$addRows(list(mean=mean(dataset[[options$xs]])))
+  return()
 
 }

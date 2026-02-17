@@ -3,3 +3,5 @@ export(addOne)
 export(processTable)
 export(parabola)
 export(interfaceExample)
+export(homals)
+
